@@ -30,6 +30,12 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Install project dependencies
 RUN composer install --optimize-autoloader --no-dev
 
+# Copy the .env.example file to the container
+COPY .env.example .env
+
+# Check if .env file already exists
+RUN test -f .env || cp .env.example .env
+
 # Generate application key
 RUN php artisan key:generate
 
